@@ -1,0 +1,236 @@
+
+
+
+{% load static %}
+
+
+<style>
+    body {
+            min-height: 100vh;
+            background-size: cover;
+            font-family: 'Lato', sans-serif;
+            color: rgba(116, 116, 116, 0.667);
+            background: linear-gradient(140deg , #fff , 50% , #BA68C8);    
+    
+        }
+        .container-fluid {
+            margin-top: 200px ;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 7px;
+
+        }
+
+        .small {
+            letter-spacing: 0.5px !important;
+        }
+
+        .card-1 {
+            box-shadow: 2px 2px 10px 0px rgb(190, 108, 170);
+        }
+
+        hr {
+            background-color: rgba(248, 248, 248, 0.667);
+        }
+
+
+        .bold {
+            font-weight: 500;
+        }
+
+        .change-color {
+            color: #AB47BC !important;
+        }
+
+        .card-2 {
+            box-shadow: 1px 1px 3px 0px rgb(112, 115, 139);
+
+        }
+
+        .fa-circle.active {
+            font-size: 8px;
+            color: #AB47BC;
+        }
+
+        .fa-circle {
+            font-size: 8px;
+            color: #aaa;
+        }
+
+        .rounded {
+            border-radius: 2.25rem !important;
+        }
+
+
+        .progress-bar {
+            background-color: #AB47BC !important;
+        }
+
+
+        .progress {
+            height: 5px !important;
+            margin-bottom: 0;
+        }
+
+        .invoice {
+            position: relative;
+            top: -70px;
+        }
+
+        .Glasses {
+            position: relative;
+            top: -12px !important;
+        }
+
+        .card-footer {
+            background-color: #AB47BC;
+            color: #fff;
+        }
+
+        h2 {
+            color: rgb(78, 0, 92);
+            letter-spacing: 2px !important;
+        }
+
+        .display-3 {
+            font-weight: 500 !important;
+        }
+
+        @media (max-width: 479px) {
+            .invoice {
+                position: relative;
+                top: 7px;
+            }
+
+            .border-line {
+                border-right: 0px solid rgb(226, 206, 226) !important;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            h2 {
+                color: rgb(78, 0, 92);
+                font-size: 17px;
+            }
+
+            .display-3 {
+                font-size: 28px;
+                font-weight: 500 !important;
+            }
+        }
+
+        .card-footer small {
+            letter-spacing: 7px !important;
+            font-size: 12px;
+        }
+
+        .border-line {
+            border-right: 1px solid rgb(226, 206, 226)
+        }
+     
+    .progress-bar-placed {
+        width: 25%; /* Adjust width as needed */
+        background-color: green; /* Example color for 'Placed' status */
+    }
+
+    .progress-bar-picked-up {
+        width: 50%;
+        background-color: yellow; /* Example color for 'Picked Up' status */
+    }
+
+    .progress-bar-out-for-delivery {
+        width: 75%;
+        background-color: orange; /* Example color for 'Out for Delivery' status */
+    }
+
+    .progress-bar-delivered {
+        width: 100%;
+        background-color: blue; /* Example color for 'Delivered' status */
+    }
+
+    .progress-bar-cancelled {
+        width: 0%;
+        background-color: red; /* Example color for 'Cancelled' status */
+    }
+
+
+</style>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+{% load static %}
+
+<!-- ... Your CSS and JS links ... -->
+
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div class="card card-1">
+        <div class="card-header bg-white">
+            <div class="media flex-sm-row flex-column-reverse justify-content-between">
+                <div class="col my-auto">
+                    <h4 class="mb-0">Thanks for your Order, <span class="change-color">{{ request.user.username }}</span>!</h4>
+                </div>
+                <!-- ... Your header content ... -->
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Order details for the first product -->
+            <div class="row justify-content-between mb-3">
+                <!-- ... Your receipt details ... -->
+            </div>
+            
+            {% for detail in request.user.details_set.all %}
+            <div class="row">
+                <div class="col">
+                    <div class="card card-2">
+                        <div class="card-body">
+                            <div class="media">
+                                <!-- ... Your product image ... -->
+                                <div class="media-body my-auto text-right">
+                                    <!-- ... Your product details ... -->
+                                    
+                                    <div class="row">
+                                        {% for status_code, status_label in detail.STATUS_CHOICES %}
+                                            <div class="col-md-3 mb-3">
+                                                <small>{{ status_label }}</small>
+                                            </div>
+                                            <div class="col mt-auto">
+                                                <div class="progress my-auto">
+                                                    <div class="progress-bar
+                                                        {% if detail.delivery_status == 'pending' %}
+                                                            progress-bar-placed
+                                                        {% elif detail.delivery_status == 'out_for_delivery' %}
+                                                            progress-bar-out-for-delivery
+                                                        {% elif detail.delivery_status == 'delivered' %}
+                                                            progress-bar-delivered
+                                                        {% endif %}
+                                                    " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <div class="media row justify-content-between">
+                                        <div class="col-auto text-right">
+                                            <span><small class="text-right mr-sm-2">{{ detail.delivery_boy.username }}</small><i class="fa fa-circle active"></i></span>
+                                        </div>
+                                        <div class="flex-col">
+                                            <span><small class="text-right mr-sm-2">{{ detail.delivery_status }}</small><i class="fa fa-circle active"></i></span>
+                                        </div>
+                                        <div class="col-auto flex-col-auto">
+                                            <span><small class="text-right mr-sm-2">{{ detail.get_delivery_status_display }}</small><i class="fa fa-circle"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

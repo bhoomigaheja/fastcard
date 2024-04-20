@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .invoice-header, .invoice-details, .invoice-items, .invoice-total {
+            margin-bottom: 20px;
+        }
+        .invoice-header h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .invoice-items table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-items th, .invoice-items td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .invoice-items th {
+            background-color: #f2f2f2;
+        }
+        .invoice-total {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .invoice-total strong {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (same as before) ... -->
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Invoice Header -->
+        <div class="invoice-header">
+            <h2>Invoice</h2>
+            <h3>FASTKART Pvt Ltd</h3>
+        </div>
+        <!-- User and Order Details -->
+        <div class="invoice-details">
+            <div>
+                <h3>User Details</h3>
+                <p>Name: {{ order.first_name }} {{ order.last_name }}</p>
+                <p>Phone: {{ order.phone_number }}</p>
+            </div>
+            <div>
+                <h3>Shipping Address</h3>
+                <p>{{ order.address }}, {{ order.city }}, {{ order.state }}, {{ order.pincode }}</p>
+            </div>
+            <div>
+                <h3>Order Status</h3>
+                <p>Status: {{ order.order_status }}</p>
+            </div>
+            <div>
+                <h3>Order Date</h3>
+                <p>Date: {{ order.order_date }}</p>
+            </div>
+        </div>
+        
+        <!-- Ordered Items -->
+        <div class="invoice-items">
+            <h3>Ordered Items</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in order.products.all %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>Rs. {{ product.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Total Price -->
+        <div class="invoice-total">
+            <strong>Total Price: Rs. {{ total_price }}</strong>
+        </div>
