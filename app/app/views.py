@@ -90,7 +90,8 @@ def signin(request):
     return render(request, 'signin.html', {'form': form})
    
 from django.contrib.auth.decorators import login_required
-from cart.cart import Cart
+from cart.cart import Cart  # If cart.py is in the same directory as your views
+
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
