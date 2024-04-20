@@ -95,7 +95,7 @@ class Order(models.Model):
     products = models.ManyToManyField(product2)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    phone_number = models.IntegerField(max_length=15)
+    phone_number = models.IntegerField()
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
@@ -111,7 +111,7 @@ class Order(models.Model):
         ('returned', 'Returned'),
     )
     delivery_boy = models.CharField(max_length=100,default = 'not allotted')
-    delivery_boy_number = models.IntegerField(max_length=10,default = '0')
+    delivery_boy_number = models.IntegerField(default = '0')
     order_status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending')
 
 
